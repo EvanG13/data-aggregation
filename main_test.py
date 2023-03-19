@@ -34,12 +34,21 @@ class MyTestCase(unittest.TestCase):
 
     def test_data_agg_4(self):
         """
-        Test data2 file
+        Test data4 file
         :return:
         """
         expected_result = "Name: DOE JOHN, Id: 123, Exam Count: 0\n" \
                           "Name: JOHN DOE, Id: 124, Exam Count: 2\n"
         actual_result = data_agg.process_file("data4")
+        self.assertEqual(expected_result, actual_result)  # add assertion here
+
+    def test_data_agg_5(self):
+        """
+        Test data5 file
+        :return:
+        """
+        expected_result = ""
+        actual_result = data_agg.process_file("data5")
         self.assertEqual(expected_result, actual_result)  # add assertion here
 
 
