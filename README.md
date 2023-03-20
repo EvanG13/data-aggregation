@@ -85,3 +85,8 @@ DEL PATIENT 321\
 
 Name: JOHN DOE, Id: 123, Exam Count: 0\
 Name: JANE CROW, Id: 789, Exam Count: 2
+
+## How to Run
+
+### Main
+python main.y <input .txt input file>
