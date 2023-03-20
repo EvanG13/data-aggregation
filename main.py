@@ -5,8 +5,11 @@ def process_summary(patients):
     """
     process a summary of all the patient records: names, id and exam count
     :param patients: dictionary containing the existing patients
-    :return: a string that is a list of all the patient records, returns empty string if empty patients record
-    example: Name: PATIENT_NAME, Id: PATIENT_ID, Exam Count: EXAM_COUNT
+    :return: a string that is a list of all the patient records,
+            returns empty string if 0 patients on record
+    ex:
+        Name: PATIENT_NAME, Id: PATIENT_ID, Exam Count: EXAM_COUNT
+        Name: John Doe, Id: 1, Exam Count 2
     """
 
     return_str = ""
@@ -57,7 +60,7 @@ def delete_patient(patients, exams, patient_id):
     """
     delete patient from the dict of patients
     used by command : DEL PATIENT
-    :param exams:
+    :param exams: dict of exam id
     :param patients: dict of patients
     :param patient_id:  patient id
     """
@@ -95,22 +98,21 @@ def delete_exam(patients, exams, exam_id):
         exams.pop(exam_id)
 
 
-def process_instruction(patients, exams, instruction):
+def process_instruction(patients, exams, instr_list):
     """
     process the passed in valid instruction
     :param exams: dict of exam ids
     :param patients: dict of patients
-    :param instruction: valid instruction
+    :param instr_list: valid instruction as a list
     """
 
-    # split the valid instruction into a list
-    instr_list = instruction.split()
-
-    # the command and record are at these two positions for every valid instruction
+    # the command and record at index 0 and 1 of the instruction list
+    # for EVERY valid instruction
     command = instr_list[0]
     record = instr_list[1]
 
     # start processing instructions
+    # rest of instruction changes depending on the command and record
     # ADD PATIENT patient_id name
     if command == "ADD" and record == "PATIENT":
         patient_id = instr_list[2]
@@ -142,14 +144,15 @@ def process_file(file_name):
     valid_command = {"ADD", "DEL"}
     valid_record = {"PATIENT", "EXAM"}
 
-    # dictionary containing all the current patients
-    #   key = id
+    # dictionary containing all patient records
+    # patient id as key so that patients have unique ids
+    # set to hold exam ids to prevent a patient having multiple exams with the same exam_id
+    #   key = patient_id
     #   val = [name, set() of exam ids]
     patients = {}
 
-    # dictionary containing all the current exams
-    # used for maintaining a record of all the current ids
-    # used to prevent two separate patients to have the same exam id
+    # dictionary containing all exam records
+    # used to prevent multiple patients from having the same exam id
     #   key = exam_id
     #   value = patient_id
     exams = {}
@@ -160,14 +163,15 @@ def process_file(file_name):
         for line in file:
             # line_seg[0] = command
             # line_set[1] = record
-            line_seg = line.split()
+            line_list = line.split()
 
             # check if line is a valid instruction
-            # if not valid, then start processing the next line of the file
-            if line_seg[0] in valid_command and line_seg[1] in valid_record:
+            # if valid it is a valid instruction, then process the instruction
+            # otherwise, continue processing the file
+            if line_list[0] in valid_command and line_list[1] in valid_record:
                 # valid instruction
                 # therefore, process the instruction
-                process_instruction(patients, exams, line)
+                process_instruction(patients, exams, line_list)
     except FileNotFoundError:
         print("File :", file_name + " does not exist")
         sys.exit(-1)
@@ -186,4 +190,8 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2 or len(sys.argv) > 2:
+        print("command line argument : input .txt file containing list of instructions")
+        print("usage example: python main.py data1")
+        sys.exit(1)
     main(sys.argv[1])

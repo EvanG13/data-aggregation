@@ -61,3 +61,27 @@ identifier. This command should remove the exam record from your system.
 
 **Edge case**: If an exam with the given identifier does not already exist, then ignore
 this command and continue processing the rest of the file.
+
+## Output Specification
+When you’ve finished processing the file, your program should print out a summary of the
+patients in your system. This should include the patient identifier, the patient name, and the
+number of exams that each patient has in your system. For example, you could output
+something like this for each patient:
+Name: JOHN DOE, Id: 123, Exam Count: 1
+
+### Example
+#### Given the following input:
+
+ADD PATIENT 123 JOHN DOE\
+ADD PATIENT 321 JOE SCMOE\
+ADD PATIENT 321 JOHN SNOW\
+ADD PATIENT 789 JANE CROW\
+ADD EXAM 321 444\
+ADD EXAM 789 445\
+ADD EXAM 789 554\
+DEL PATIENT 321\
+
+#### Your program should output the following:
+
+Name: JOHN DOE, Id: 123, Exam Count: 0\
+Name: JANE CROW, Id: 789, Exam Count: 2
