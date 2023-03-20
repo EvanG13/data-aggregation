@@ -79,7 +79,7 @@ ADD PATIENT 789 JANE CROW\
 ADD EXAM 321 444\
 ADD EXAM 789 445\
 ADD EXAM 789 554\
-DEL PATIENT 321\
+DEL PATIENT 321
 
 #### Your program should output the following:
 
